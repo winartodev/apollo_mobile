@@ -1,3 +1,4 @@
+import 'package:apollo_mobile/features/auth/auth_routes.dart';
 import 'package:apollo_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -118,7 +119,7 @@ class _SignInFormState extends State<SignInForm> {
             children: [
               const Text("Belum punya akun?"),
               TextButton(
-                onPressed: () => Get.toNamed('/register'),
+                onPressed: () => Get.toNamed(AuthRoutes.signUp),
                 child: const Text('Daftar'),
               ),
             ],

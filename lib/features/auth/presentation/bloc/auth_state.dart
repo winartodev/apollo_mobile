@@ -31,3 +31,26 @@ class SignInFailure extends AuthState {
   @override
   String toString() => 'SignInFailure(message: $message)';
 }
+
+class SignUpLoading extends AuthState {}
+
+class SignUpSuccess extends AuthState {
+  final dynamic response;
+
+  const SignUpSuccess(this.response);
+
+  @override
+  List<Object> get props => [response];
+}
+
+class SignUpFailure extends AuthState {
+  final String message;
+
+  const SignUpFailure(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'SignUpFailure(message: $message)';
+}

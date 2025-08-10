@@ -4,14 +4,17 @@ import 'package:apollo_mobile/features/auth/domain/entities/sign_in_entity.dart'
 import 'package:apollo_mobile/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final SharedPreferences sharedPreferences;
   final SignInUsecase signInUsecase;
 
-  AuthBloc({required this.signInUsecase}) : super(AuthInitial()) {
+  AuthBloc({required this.signInUsecase, required this.sharedPreferences})
+    : super(AuthInitial()) {
     on<SignInRequested>(_onSignInRequested);
   }
 
