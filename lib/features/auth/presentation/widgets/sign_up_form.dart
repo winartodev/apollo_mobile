@@ -19,7 +19,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final _phoneController = TextEditingController();
   final _countryCodeController = TextEditingController(
     text: '+62',
-  ); // contoh default Indonesia
+  );
   final _passwordController = TextEditingController();
 
   bool _obscurePassword = true;
