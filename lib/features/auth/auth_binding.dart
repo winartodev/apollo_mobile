@@ -4,6 +4,7 @@ import 'package:apollo_mobile/features/auth/data/datasources/auth_remote_data_so
 import 'package:apollo_mobile/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:apollo_mobile/features/auth/domain/repositories/auth_repository.dart';
 import 'package:apollo_mobile/features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:apollo_mobile/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:apollo_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +32,7 @@ class AuthBinding implements Bindings {
       () => AuthBloc(
         sharedPreferences: Get.find<SharedPreferences>(),
         signInUsecase: SignInUsecase(repository: Get.find<AuthRepository>()),
+        signUpUsecase: SignUpUsecase(repository: Get.find<AuthRepository>())
       ),
       fenix: true,
     );
