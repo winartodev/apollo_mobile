@@ -41,6 +41,9 @@ class SignUpSuccess extends AuthState {
 
   @override
   List<Object> get props => [response];
+
+  @override
+  String toString() => 'SignUpSuccess(response: ${response.toString()})';
 }
 
 class SignUpFailure extends AuthState {

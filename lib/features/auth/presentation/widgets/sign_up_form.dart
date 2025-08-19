@@ -17,9 +17,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _countryCodeController = TextEditingController(
-    text: '+62',
-  );
+  final _countryCodeController = TextEditingController(text: '+62');
   final _passwordController = TextEditingController();
 
   bool _obscurePassword = true;
@@ -183,6 +181,8 @@ class _SignUpFormState extends State<SignUpForm> {
             builder: (context, state) {
               if (state is SignUpLoading) {
                 return const Center(child: CircularProgressIndicator());
+              } else if (state is SignUpSuccess) {
+                debugPrint(state.toString());
               }
               return ElevatedButton(
                 onPressed: _submitForm,
@@ -197,7 +197,7 @@ class _SignUpFormState extends State<SignUpForm> {
             children: [
               const Text("Sudah punya akun?"),
               TextButton(
-                onPressed: () => Get.offAllNamed(AuthRoutes.signIn),
+                onPressed: () => Get.offAllNamed(AuthRoutes.signInPage),
                 child: const Text('Masuk'),
               ),
             ],

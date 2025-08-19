@@ -3,6 +3,10 @@ import 'package:apollo_mobile/features/auth/domain/entities/auth_entity.dart';
 
 extension AuthResponseMapper on AuthResponseModel {
   AuthEntity toEntity() {
-    return AuthEntity(accessToken: accessToken, refreshToken: refreshToken);
+    return AuthEntity(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      redirectionLink: redirectionLink,
+    );
   }
 }

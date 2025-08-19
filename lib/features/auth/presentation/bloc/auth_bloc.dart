@@ -46,7 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     SignUpRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(SignInLoading());
+    emit(SignUpLoading());
 
     try {
       final result = await signUpUsecase.execute(
@@ -58,10 +58,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
 
-      emit(SignInSuccess(result));
+      emit(SignUpSuccess(result));
     } catch (e) {
       final errorMessage = e.toString();
-      emit(SignInFailure(errorMessage));
+      emit(SignUpFailure(errorMessage));
     }
   }
 }

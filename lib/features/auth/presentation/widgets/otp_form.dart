@@ -86,23 +86,7 @@ class _OtpFormState extends State<OtpForm> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  onChanged: (value) {
-                    if (value.length == 1 && value.length < 5) {
-                      _otpFocusNodes[index].unfocus();
-                      FocusScope.of(
-                        context,
-                      ).requestFocus(_otpFocusNodes[index + 1]);
-                    } else if (value.isEmpty && index > 0) {
-                      _otpFocusNodes[index].unfocus();
-                      FocusScope.of(
-                        context,
-                      ).requestFocus(_otpFocusNodes[index - 1]);
-                    }
-
-                    if (index == 5 && value.isNotEmpty) {
-                      _submitOtp();
-                    }
-                  },
+                  onChanged: (value) => _moveToNextField(value, index),
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
@@ -152,5 +136,27 @@ class _OtpFormState extends State<OtpForm> {
         timer.cancel();
       }
     });
+  }
+
+  void _moveToNextField(String value, int index) {
+    if (index < 0 && index >= _otpFocusNodes.length) {
+      return;
+    }
+
+    if (value.isNotEmpty && index < _otpFocusNodes.length - 1) {
+      _otpFocusNodes[index].unfocus();
+      FocusScope.of(context).requestFocus(_otpFocusNodes[index + 1]);
+    } else if (value.isEmpty && index > 0) {
+      _otpFocusNodes[index].unfocus();
+      FocusScope.of(context).requestFocus(_otpFocusNodes[index - 1]);
+
+      if (_otpControllers[index - 1].text.isNotEmpty) {
+        _otpControllers[index - 1].clear();
+      }
+    }
+
+    if (index == 5 && value.isNotEmpty) {
+      _submitOtp();
+    }
   }
 }

@@ -119,7 +119,7 @@ class _SignInFormState extends State<SignInForm> {
             children: [
               const Text("Belum punya akun?"),
               TextButton(
-                onPressed: () => Get.toNamed(AuthRoutes.signUp),
+                onPressed: () => Get.toNamed(AuthRoutes.signUpPage),
                 child: const Text('Daftar'),
               ),
             ],
