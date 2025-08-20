@@ -19,6 +19,8 @@ class _SignInPageState extends State<SignInPage> {
         listener: (context, state) {
           if (state is SignInFailure) {
             _showErrorSnackbar(context, state.message);
+          } else if (state is SignInSuccess) {
+            Get.offAllNamed(state.response.redirectionLink);
           }
         },
         child: SingleChildScrollView(

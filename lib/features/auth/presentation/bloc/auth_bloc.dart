@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:apollo_mobile/features/auth/presentation/models/auth_response_model.dart';
 import 'package:apollo_mobile/features/auth/domain/entities/sign_in_entity.dart';
 import 'package:apollo_mobile/features/auth/domain/entities/sign_up_entity.dart';
 import 'package:apollo_mobile/features/auth/domain/usecases/sign_in_usecase.dart';
@@ -32,10 +33,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(SignInLoading());
 
     try {
-      final result = await signInUsecase.execute(
-        SignInEntity(username: event.username, password: event.password),
+      final signInEntity = SignInEntity(
+        username: event.username,
+        password: event.password,
       );
-      emit(SignInSuccess(result));
+
+      final resp = await signInUsecase.execute(signInEntity);
+
+      emit(SignInSuccess(AuthResponseModel.fromEntity(resp)));
     } catch (e) {
       final errorMessage = e.toString();
       emit(SignInFailure(errorMessage));
@@ -49,16 +54,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(SignUpLoading());
 
     try {
-      final result = await signUpUsecase.execute(
-        SignUpEntity(
-          username: event.username,
-          password: event.password,
-          email: event.email,
-          phoneNumber: event.phoneNumber,
-        ),
+      final signUpEntity = SignUpEntity(
+        username: event.username,
+        password: event.password,
+        email: event.email,
+        phoneNumber: event.phoneNumber,
       );
 
-      emit(SignUpSuccess(result));
+      final resp = await signUpUsecase.execute(signUpEntity);
+
+      emit(SignUpSuccess(AuthResponseModel.fromEntity(resp)));
     } catch (e) {
       final errorMessage = e.toString();
       emit(SignUpFailure(errorMessage));

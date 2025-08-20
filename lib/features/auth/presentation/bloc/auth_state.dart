@@ -12,7 +12,7 @@ class AuthInitial extends AuthState {}
 class SignInLoading extends AuthState {}
 
 class SignInSuccess extends AuthState {
-  final dynamic response;
+  final AuthResponseModel response;
 
   const SignInSuccess(this.response);
 
@@ -35,7 +35,7 @@ class SignInFailure extends AuthState {
 class SignUpLoading extends AuthState {}
 
 class SignUpSuccess extends AuthState {
-  final dynamic response;
+  final AuthResponseModel response;
 
   const SignUpSuccess(this.response);
 

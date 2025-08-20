@@ -5,10 +5,12 @@ import 'package:http/http.dart' as http;
 
 class ApiClient {
   final String baseUrl;
+  final String platfrom;
   final Map<String, String> defaultHeaders;
 
   ApiClient({
     required this.baseUrl,
+    required this.platfrom,
     this.defaultHeaders = const {'Content-Type': 'application/json'},
   });
 
@@ -48,7 +50,12 @@ class ApiClient {
     Map<String, String>? customHeaders,
     bool withAuth,
   ) {
-    return {...defaultHeaders, if (customHeaders != null) ...customHeaders};
+    final headers = customHeaders != null
+        ? Map<String, String>.from(customHeaders)
+        : <String, String>{};
+
+    headers['X-APP-PLATFORM'] = platfrom;
+    return {...defaultHeaders, ...headers};
   }
 
   ApiResponse<T> _processResponse<T>(

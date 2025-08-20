@@ -181,8 +181,6 @@ class _SignUpFormState extends State<SignUpForm> {
             builder: (context, state) {
               if (state is SignUpLoading) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (state is SignUpSuccess) {
-                debugPrint(state.toString());
               }
               return ElevatedButton(
                 onPressed: _submitForm,
