@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:apollo_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OtpForm extends StatefulWidget {
-  const OtpForm({super.key});
+  final int expires;
+  const OtpForm({super.key, required this.expires});
 
   @override
   State<OtpForm> createState() => _OtpFormState();
@@ -29,6 +32,7 @@ class _OtpFormState extends State<OtpForm> {
 
   @override
   void initState() {
+    _resendTimeout = widget.expires;
     super.initState();
     _startTimer();
   }
@@ -100,7 +104,7 @@ class _OtpFormState extends State<OtpForm> {
                     child: const Text('Resend Code'),
                   )
                 : Text(
-                    '($_resendTimeout)',
+                    _formatSecondsToMinutesSeconds(_resendTimeout),
                     style: TextStyle(color: Colors.grey[600]),
                   ),
           ),
@@ -114,14 +118,20 @@ class _OtpFormState extends State<OtpForm> {
     _startTimer();
   }
 
-  void _submitOtp() {
-    debugPrint("submit OTP");
+  void _submitOtp(String otpNumber) {
+    context.read<AuthBloc>().add(ValidateOtpRequested(otpNumber: otpNumber));
+  }
+
+  String _formatSecondsToMinutesSeconds(int totalSeconds) {
+    int minutes = totalSeconds ~/ 60;
+    int seconds = totalSeconds % 60;
+    return '(${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')})';
   }
 
   void _startTimer() {
     setState(() {
       _canResend = false;
-      _resendTimeout = 30;
+      _resendTimeout = widget.expires;
     });
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -156,7 +166,7 @@ class _OtpFormState extends State<OtpForm> {
     }
 
     if (index == 5 && value.isNotEmpty) {
-      _submitOtp();
+      _submitOtp("1234");
     }
   }
 }

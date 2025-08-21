@@ -33,3 +33,12 @@ class SignUpRequested extends AuthEvent {
   @override
   List<Object> get props => [username, password, email, phoneNumber];
 }
+
+class ValidateOtpRequested extends AuthEvent {
+  final String otpNumber;
+
+  const ValidateOtpRequested({required this.otpNumber});
+
+  @override
+  List<Object> get props => [otpNumber];
+}

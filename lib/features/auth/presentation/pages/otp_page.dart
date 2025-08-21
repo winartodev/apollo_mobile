@@ -12,18 +12,27 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
+  var expires = 3;
+
   @override
   Widget build(BuildContext context) {
+    final parameters = Get.arguments;
+    if (parameters != null) {
+      expires = parameters['expires_in'] ?? 3;
+    }
+
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is SignInFailure) {
+          if (state is OtpValidateFailure) {
             _showErrorSnackbar(context, state.message);
+          } else if (state is OtpValidateSuccess) {
+            debugPrint("validation success");
           }
         },
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
-          child: OtpForm(),
+          child: OtpForm(expires: expires),
         ),
       ),
     );

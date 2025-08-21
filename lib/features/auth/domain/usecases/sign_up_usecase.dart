@@ -3,13 +3,13 @@ import 'package:apollo_mobile/features/auth/domain/entities/auth_entity.dart';
 import 'package:apollo_mobile/features/auth/domain/entities/sign_up_entity.dart';
 import 'package:apollo_mobile/features/auth/domain/repositories/auth_repository.dart';
 
-class SignUpUsecase implements Usecase<AuthEntity, SignUpEntity> {
-  final AuthRepository repository;
+class SignUpUseCase implements UseCase<AuthEntity, SignUpEntity> {
+  final AuthRepository authRepo;
 
-  SignUpUsecase({required this.repository});
+  SignUpUseCase({required this.authRepo});
 
   @override
   Future<AuthEntity> execute(SignUpEntity data) {
-    return repository.signUp(data);
+    return authRepo.signUp(data);
   }
 }

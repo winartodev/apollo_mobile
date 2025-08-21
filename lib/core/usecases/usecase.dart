@@ -32,7 +32,7 @@
 ///   }
 /// }
 /// ```
-abstract class Usecase<T1, T2> {
+abstract class UseCase<T1, T2> {
   /// Executes the use case with the provided [data] of type [T2].
   /// Returns a result of type [T1].
   Future<T1> execute(T2 data);

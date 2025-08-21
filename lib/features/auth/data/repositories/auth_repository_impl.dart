@@ -22,10 +22,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<AuthEntity> signIn(SignInEntity data) async {
     var response = await remoteDataSource.signIn(data.toModel());
 
-    await _saveTokenToLocalStorage(
-      response.data!.accessToken,
-      response.data!.refreshToken,
-    );
+    if (response.success) {
+      await localDataSource.cacheAccessToken(response.data!.accessToken);
+      await localDataSource.cacheRefreshToken(response.data!.refreshToken);
+    }
 
     return response.mapData((m) => m.toEntity());
   }
@@ -34,19 +34,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<AuthEntity> signUp(SignUpEntity data) async {
     var response = await remoteDataSource.signUp(data.toModel());
 
-    await _saveTokenToLocalStorage(
-      response.data!.accessToken,
-      response.data!.refreshToken,
-    );
+    if (response.success) {
+      await localDataSource.cacheAccessToken(response.data!.accessToken);
+      await localDataSource.cacheRefreshToken(response.data!.refreshToken);
+    }
 
     return response.mapData((m) => m.toEntity());
-  }
-
-  Future<void> _saveTokenToLocalStorage(
-    String accessToken,
-    String refreshToken,
-  ) async {
-    var _ = await localDataSource.cacheAccessToken(accessToken);
-    var _ = await localDataSource.cacheAccessToken(accessToken);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:apollo_mobile/features/auth/data/mappers/otp_response_mapper.dart';
 import 'package:apollo_mobile/features/auth/data/models/auth_response_model.dart';
 import 'package:apollo_mobile/features/auth/domain/entities/auth_entity.dart';
 
@@ -7,6 +8,7 @@ extension AuthResponseMapper on AuthResponseModel {
       accessToken: accessToken,
       refreshToken: refreshToken,
       redirectionLink: redirectionLink,
+      otp: otp!.toEntity(),
     );
   }
 }

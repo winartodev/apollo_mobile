@@ -3,7 +3,6 @@ import 'package:apollo_mobile/features/auth/presentation/widgets/sign_up_form.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -21,7 +20,10 @@ class _SignUpPageState extends State<SignUpPage> {
           if (state is SignUpFailure) {
             _showErrorSnackbar(context, state.message);
           } else if (state is SignUpSuccess) {
-            Get.toNamed(state.response.redirectionLink);
+            Get.toNamed(
+              state.response.redirectionLink,
+              arguments: {'expires_in': state.response.otp!.expiresIn},
+            );
           }
         },
         child: SingleChildScrollView(
