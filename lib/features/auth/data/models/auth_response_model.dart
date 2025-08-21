@@ -1,5 +1,4 @@
 import 'package:apollo_mobile/features/auth/data/models/otp_response_model.dart';
-import 'package:flutter/rendering.dart';
 
 class AuthResponseModel {
   final String accessToken;

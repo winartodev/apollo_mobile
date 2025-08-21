@@ -3,7 +3,6 @@ import 'package:apollo_mobile/core/network/api_response.dart';
 import 'package:apollo_mobile/features/auth/data/models/auth_response_model.dart';
 import 'package:apollo_mobile/features/auth/data/models/sign_in_request_model.dart';
 import 'package:apollo_mobile/features/auth/data/models/sign_up_request_model.dart';
-import 'package:flutter/rendering.dart';
 
 abstract class AuthRemoteDatasource {
   Future<ApiResponse<AuthResponseModel>> signIn(SignInRequestModel request);
@@ -24,7 +23,6 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         "/auth/sign-in",
         body: request.toJson(),
         fromJsonT: (json) => AuthResponseModel.fromJson(json),
-        withAuth: false,
       );
 
       if (!response.success) {
@@ -51,7 +49,6 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         "/auth/sign-up",
         body: request.toJson(),
         fromJsonT: (json) => AuthResponseModel.fromJson(json),
-        withAuth: false,
       );
 
       return response;

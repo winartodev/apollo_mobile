@@ -24,10 +24,10 @@ class _OtpPageState extends State<OtpPage> {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is OtpValidateFailure) {
+          if (state is ValidateOtpFailure) {
             _showErrorSnackbar(context, state.message);
-          } else if (state is OtpValidateSuccess) {
-            debugPrint("validation success");
+          } else if (state is ValidateOtpSuccess) {
+            Get.offAllNamed(state.response.redirectionLink!);
           }
         },
         child: SingleChildScrollView(

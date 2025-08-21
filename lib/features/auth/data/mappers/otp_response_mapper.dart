@@ -8,6 +8,7 @@ extension OtpResponseMapper on OtpResponseModel {
       retryAttemptLeft: retryAttemptLeft,
       expiresIn: expiresIn,
       isValid: isValid,
+      redirectionLink: redirectionLink,
     );
   }
 }

@@ -1,17 +1,24 @@
 part of 'auth_bloc.dart';
 
-class OtpLoading extends AuthState {}
+class ValidateOtpLoading extends AuthState {}
 
-class OtpValidateSuccess extends AuthState {}
+class ValidateOtpSuccess extends AuthState {
+  final OtpResponseModel response;
 
-class OtpValidateFailure extends AuthState {
+  const ValidateOtpSuccess(this.response);
+
+  @override
+  List<Object> get props => [response];
+}
+
+class ValidateOtpFailure extends AuthState {
   final String message;
 
-  const OtpValidateFailure(this.message);
+  const ValidateOtpFailure(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'OtpValidateFailure(message: $message)';
+  String toString() => 'ValidateOtpFailure(message: $message)';
 }

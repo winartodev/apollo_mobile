@@ -17,14 +17,11 @@ class ApiClient {
   Future<ApiResponse<T>> get<T>(
     String endpoint,
     T Function(dynamic json)? fromJsonT,
-    Map<String, String> headers,
+    Map<String, String> customHeader,
     bool withAuth,
   ) async {
     final uri = Uri.parse("$baseUrl$endpoint");
-    final response = await http.get(
-      uri,
-      headers: _buildHeaders(headers, withAuth),
-    );
+    final response = await http.get(uri, headers: _buildHeaders(customHeader));
 
     return _processResponse(response, fromJsonT);
   }
@@ -33,23 +30,19 @@ class ApiClient {
     String endpoint, {
     Object? body,
     T Function(dynamic json)? fromJsonT,
-    Map<String, String>? headers,
-    bool withAuth = true,
+    Map<String, String>? customHeader,
   }) async {
     final uri = Uri.parse('$baseUrl$endpoint');
     final response = await http.post(
       uri,
-      headers: _buildHeaders(headers, withAuth),
+      headers: _buildHeaders(customHeader),
       body: body != null ? jsonEncode(body) : null,
     );
 
     return _processResponse(response, fromJsonT);
   }
 
-  Map<String, String> _buildHeaders(
-    Map<String, String>? customHeaders,
-    bool withAuth,
-  ) {
+  Map<String, String> _buildHeaders(Map<String, String>? customHeaders) {
     final headers = customHeaders != null
         ? Map<String, String>.from(customHeaders)
         : <String, String>{};

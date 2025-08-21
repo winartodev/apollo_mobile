@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:apollo_mobile/features/auth/domain/usecases/auth_storage_usecase.dart';
+import 'package:apollo_mobile/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:apollo_mobile/features/auth/presentation/models/auth_response_model.dart';
 import 'package:apollo_mobile/features/auth/domain/entities/sign_in_entity.dart';
 import 'package:apollo_mobile/features/auth/domain/entities/sign_up_entity.dart';
 import 'package:apollo_mobile/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:apollo_mobile/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:apollo_mobile/features/auth/presentation/models/otp_response_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,15 +23,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInUseCase signInUsecase;
   final SignUpUseCase signUpUsecase;
   final AuthStorageUsecase authStorageUsecase;
+  final OtpUseCase otpUseCase;
 
   AuthBloc({
     required this.signInUsecase,
     required this.sharedPreferences,
     required this.signUpUsecase,
     required this.authStorageUsecase,
+    required this.otpUseCase,
   }) : super(AuthInitial()) {
     on<SignInRequested>(_onSignInRequested);
     on<SignUpRequested>(_onSignUpRequested);
+    on<ValidateOtpRequested>(_onValidateOtpRequested);
   }
 
   Future<void> _onSignInRequested(
@@ -73,6 +78,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       final errorMessage = e.toString();
       emit(SignUpFailure(errorMessage));
+    }
+  }
+
+  Future<void> _onValidateOtpRequested(
+    ValidateOtpRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(ValidateOtpLoading());
+
+    try {
+      final resp = await otpUseCase.validateOtp(event.otpNumber);
+
+      if (resp == null) {
+        throw Exception("response data empty");
+      }
+
+      emit(ValidateOtpSuccess(OtpResponseModel.fromEntity(resp)));
+    } catch (e) {
+      final errorMessage = e.toString();
+      emit(ValidateOtpFailure(errorMessage));
     }
   }
 }

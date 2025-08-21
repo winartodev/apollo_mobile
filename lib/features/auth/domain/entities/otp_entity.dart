@@ -3,11 +3,15 @@ class OtpEntity {
   final int expiresIn;
   final int retryAfterIn;
   final bool isValid;
+  String? message;
+  String? redirectionLink;
 
   OtpEntity({
     required this.retryAttemptLeft,
     required this.expiresIn,
     required this.retryAfterIn,
     required this.isValid,
+    this.message,
+    this.redirectionLink,
   });
 }

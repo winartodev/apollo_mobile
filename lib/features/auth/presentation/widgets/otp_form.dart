@@ -118,8 +118,10 @@ class _OtpFormState extends State<OtpForm> {
     _startTimer();
   }
 
-  void _submitOtp(String otpNumber) {
-    context.read<AuthBloc>().add(ValidateOtpRequested(otpNumber: otpNumber));
+  void _submitOtp() {
+    context.read<AuthBloc>().add(
+      ValidateOtpRequested(otpNumber: _getOtpValue()),
+    );
   }
 
   String _formatSecondsToMinutesSeconds(int totalSeconds) {
@@ -148,6 +150,11 @@ class _OtpFormState extends State<OtpForm> {
     });
   }
 
+  int _getOtpValue() {
+    var otpStr = _otpControllers.map((controller) => controller.text).join();
+    return int.parse(otpStr);
+  }
+
   void _moveToNextField(String value, int index) {
     if (index < 0 && index >= _otpFocusNodes.length) {
       return;
@@ -166,7 +173,7 @@ class _OtpFormState extends State<OtpForm> {
     }
 
     if (index == 5 && value.isNotEmpty) {
-      _submitOtp("1234");
+      _submitOtp();
     }
   }
 }

@@ -1,11 +1,15 @@
 import 'package:apollo_mobile/core/network/api_client.dart';
 import 'package:apollo_mobile/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:apollo_mobile/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:apollo_mobile/features/auth/data/datasources/otp_remote_data_source.dart';
 import 'package:apollo_mobile/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:apollo_mobile/features/auth/data/repositories/auth_storage_repository_impl.dart';
+import 'package:apollo_mobile/features/auth/data/repositories/otp_repository_impl.dart';
 import 'package:apollo_mobile/features/auth/domain/repositories/auth_repository.dart';
 import 'package:apollo_mobile/features/auth/domain/repositories/auth_storage_repository.dart';
+import 'package:apollo_mobile/features/auth/domain/repositories/otp_repository.dart';
 import 'package:apollo_mobile/features/auth/domain/usecases/auth_storage_usecase.dart';
+import 'package:apollo_mobile/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:apollo_mobile/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:apollo_mobile/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:apollo_mobile/features/auth/presentation/bloc/auth_bloc.dart';
@@ -23,10 +27,22 @@ class AuthBinding implements Bindings {
       () => AuthRemoteDatasourceImpl(client: Get.find<ApiClient>()),
     );
 
+    Get.lazyPut<OtpRemoteDataSource>(
+      () => OtpRemoteDataSourceImpl(client: Get.find<ApiClient>()),
+    );
+
     Get.lazyPut<AuthRepository>(
       () => AuthRepositoryImpl(
         remoteDataSource: Get.find<AuthRemoteDatasource>(),
         localDataSource: Get.find<AuthLocalDataSource>(),
+      ),
+      fenix: true,
+    );
+
+    Get.lazyPut<OtpRepository>(
+      () => OtpRepositoryImpl(
+        otpRemoteDataSource: Get.find<OtpRemoteDataSource>(),
+        authStorageRepository: Get.find<AuthStorageRepository>(),
       ),
       fenix: true,
     );
@@ -43,6 +59,7 @@ class AuthBinding implements Bindings {
         sharedPreferences: Get.find<SharedPreferences>(),
         signInUsecase: SignInUseCase(authRepo: Get.find<AuthRepository>()),
         signUpUsecase: SignUpUseCase(authRepo: Get.find<AuthRepository>()),
+        otpUseCase: OtpUseCase(otpRepo: Get.find<OtpRepository>()),
         authStorageUsecase: AuthStorageUsecase(
           authStorageRepo: Get.find<AuthStorageRepository>(),
         ),

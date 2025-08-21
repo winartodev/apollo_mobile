@@ -35,7 +35,7 @@ class SignUpRequested extends AuthEvent {
 }
 
 class ValidateOtpRequested extends AuthEvent {
-  final String otpNumber;
+  final int otpNumber;
 
   const ValidateOtpRequested({required this.otpNumber});
 
