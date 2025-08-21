@@ -2,7 +2,6 @@ import 'package:apollo_mobile/core/network/api_client.dart';
 import 'package:apollo_mobile/core/network/api_response.dart';
 import 'package:apollo_mobile/features/auth/data/models/otp_request_model.dart';
 import 'package:apollo_mobile/features/auth/data/models/otp_response_model.dart';
-import 'package:flutter/rendering.dart';
 
 abstract class OtpRemoteDataSource {
   Future<ApiResponse<OtpResponseModel>> validateOtp(
